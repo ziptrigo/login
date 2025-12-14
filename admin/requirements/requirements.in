@@ -1,0 +1,4 @@
+django
+djangorestframework
+pyjwt
+typer                   # CLI app
