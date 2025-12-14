@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from accounts.models import (
+from src.login.models import (
     Permission,
     Role,
     RolePermission,

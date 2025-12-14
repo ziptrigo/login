@@ -142,14 +142,13 @@ X-Client-Secret: <client_secret>
 ```
 
 ## Configuration
-
-Key settings in `src/login/settings.py`:
-
-- `AUTH_USER_MODEL = 'accounts.User'`
-- DRF defaults: `IsAuthenticated`; admin endpoints layer `IsAdminUser`
-- `JWT_SECRET` - Secret key for JWT signing (set via environment in production)
-- `JWT_ALGORITHM` - Algorithm for JWT (default: HS256)
-- `JWT_EXP_DELTA_SECONDS` - Token expiration time (default: 2 weeks)
+Key settings live in `config/settings.py`.
+- Custom user model: `src.login.models.user.User` (set via `AUTH_USER_MODEL`).
+- DRF defaults: `IsAuthenticated`; admin endpoints layer `IsAdminUser`.
+- JWT:
+  - `JWT_SECRET` (set via environment in production)
+  - `JWT_ALGORITHM` (default: HS256)
+  - `JWT_EXP_DELTA_SECONDS` (default: 2 weeks)
 
 ## Testing
 
@@ -163,37 +162,42 @@ Quick manual test sequence:
 3) Login as that user: `POST /api/auth/login` — receive JWT.
 4) Call protected endpoints with `Authorization: Bearer <token>`.
 
-Django admin: http://127.0.0.1:8000/admin/
+Django admin: http://127.0.0.1:8020/admin/
 
 ## Project Structure
-
 ```
-manage.py           # Django management script (adds src/ to sys.path)
-requirements.txt    # Python dependencies
-docs/               # Documentation
-src/                # Source code
-  login/            # Django project configuration
-    settings.py     # Settings
-    urls.py         # Main URL routing
-    wsgi.py         # WSGI application
-    asgi.py         # ASGI application
-  core/             # Core functionality
-    jwt.py          # JWT utilities
-    authentication.py  # DRF authentication classes
-    backends.py     # Django authentication backend
-  accounts/         # Main app
-    models.py       # Data models
-    serializers.py  # DRF serializers
-    views/          # API views
+config/                   # Django project config (settings, urls, wsgi/asgi)
+src/
+  login/                  # Django app (installed as `src.login`)
+    models/               # Django models package (one model per file)
+      __init__.py         # Re-exports models for `from src.login.models import ...`
+      service.py
+      permission.py
+      role.py
+      role_permission.py
+      user.py
+      user_service_assignment.py
+      user_service_role.py
+      user_service_permission.py
+      user_global_role.py
+      user_global_permission.py
+    views/                # DRF views split by domain
       auth_views.py
       service_views.py
       role_permission_views.py
       user_views.py
-    urls.py         # App URL routing
-    admin.py        # Admin configuration
-  templates/        # HTML templates
-    base.html
-    hello.html
+    admin.py              # Django admin registrations
+    serializers.py        # DRF serializers
+    urls.py               # App URL routing (/api/...)
+    authentication.py     # DRF authentication classes
+    backends.py           # Django authentication backend(s)
+    jwt.py                # JWT build/verify helpers
+    templates/            # Minimal UI templates
+    static/               # Static assets (if used)
+manage.py
+pyproject.toml
+README.md
+WARP.md
 ```
 
 ## License

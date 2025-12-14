@@ -1,35 +1,56 @@
-"""
-URL configuration for login_service project.
+from django.urls import path
 
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/6.0/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
-
-from django.contrib import admin
-from django.urls import include, path
-from django.views.generic import TemplateView
-from drf_spectacular.views import (
-    SpectacularAPIView,
-    SpectacularRedocView,
-    SpectacularSwaggerView,
-)
+from src.login.views import role_permission_views, service_views, user_views
+from src.login.views.auth_views import LoginView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/', include('accounts.urls')),
-    # OpenAPI schema & docs
-    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
-    path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
-    path('api/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
-    path('', TemplateView.as_view(template_name='hello.html'), name='hello'),
+    # Auth (Login)
+    path('auth/login', LoginView.as_view(), name='api-login'),
+    # Services
+    path('services', service_views.ServiceListCreateView.as_view(), name='service-list-create'),
+    path(
+        'services/<uuid:service_id>',
+        service_views.ServiceDetailView.as_view(),
+        name='service-detail',
+    ),
+    # Service permissions & roles
+    path(
+        'services/<uuid:service_id>/permissions',
+        role_permission_views.ServicePermissionListCreateView.as_view(),
+        name='service-permissions',
+    ),
+    path(
+        'services/<uuid:service_id>/roles',
+        role_permission_views.ServiceRoleListCreateView.as_view(),
+        name='service-roles',
+    ),
+    # Users
+    path(
+        'services/<uuid:service_id>/users',
+        user_views.ServiceUserCreateView.as_view(),
+        name='service-user-create',
+    ),
+    path(
+        'users/<uuid:user_id>', user_views.UserDetailUpdateDeleteView.as_view(), name='user-detail'
+    ),
+    path(
+        'users/<uuid:user_id>/deactivate',
+        user_views.UserDeactivateView.as_view(),
+        name='user-deactivate',
+    ),
+    path(
+        'users/<uuid:user_id>/reactivate',
+        user_views.UserReactivateView.as_view(),
+        name='user-reactivate',
+    ),
+    path(
+        'users/<uuid:user_id>/services',
+        user_views.UserServicesListView.as_view(),
+        name='user-services',
+    ),
+    path(
+        'users/<uuid:user_id>/services/<uuid:service_id>',
+        user_views.UserServiceAssignmentView.as_view(),
+        name='user-service-assignment',
+    ),
 ]
