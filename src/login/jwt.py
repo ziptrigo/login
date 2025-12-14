@@ -99,4 +99,4 @@ def decode_jwt(token: str) -> dict:
     Raises:
         jwt.InvalidTokenError: If token is invalid or expired
     """
-    return jwt.decode(token, settings.JWT_SECRET, algorithms=[settings.JWT_ALGORITHM])
+    return jwt.decode(token, settings.JWT_SECRET, algorithms=[settings.JWT_ALGORITHM])  # type: ignore

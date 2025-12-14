@@ -30,9 +30,7 @@ urlpatterns = [
         users.ServiceUserCreateView.as_view(),
         name='service-user-create',
     ),
-    path(
-        'users/<uuid:user_id>', users.UserDetailUpdateDeleteView.as_view(), name='user-detail'
-    ),
+    path('users/<uuid:user_id>', users.UserDetailUpdateDeleteView.as_view(), name='user-detail'),
     path(
         'users/<uuid:user_id>/deactivate',
         users.UserDeactivateView.as_view(),
