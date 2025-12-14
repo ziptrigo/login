@@ -2,4 +2,5 @@ django
 djangorestframework     # Django Rest Framework (DRF)
 drf-spectacular         # OpenAPI docs, nicer than standard DRF
 pyjwt
+python-dotenv
 typer                   # CLI app

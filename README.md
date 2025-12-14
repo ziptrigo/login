@@ -49,6 +49,11 @@ python manage.py runserver
 
 ## API Endpoints
 
+### API Documentation
+- `/api/schema/` - OpenAPI schema (append `?format=json` or `?format=yaml`)
+- `/api/docs/` - Interactive Swagger UI documentation (supports Authorize with Bearer tokens)
+- `/api/redoc/` - ReDoc documentation
+
 ### Authentication
 
 - Auth method: JWT via `Authorization: Bearer <token>`.

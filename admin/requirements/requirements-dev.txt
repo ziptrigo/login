@@ -139,6 +139,8 @@ pytest-cov==7.0.0
     # via -r requirements-dev.in
 pytest-django==4.11.1
     # via -r requirements-dev.in
+python-dotenv==1.2.1
+    # via -r requirements.txt
 pytokens==0.3.0
     # via black
 pyyaml==6.0.3
