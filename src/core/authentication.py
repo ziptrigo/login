@@ -1,7 +1,7 @@
 import jwt
 from rest_framework import authentication, exceptions
 
-from src.accounts.models import Service, User
+from src.login.accounts.models import Service, User
 from src.core.jwt import decode_jwt
 
 

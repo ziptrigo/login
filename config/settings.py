@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'drf_spectacular',
-    'src.accounts',
+    'src.login.accounts',
 ]
 
 MIDDLEWARE = [
@@ -129,7 +129,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # Custom user model
-AUTH_USER_MODEL = 'accounts.User'
+AUTH_USER_MODEL = 'accounts.User'  # app_label from AppConfig.name
 
 # Authentication backends
 AUTHENTICATION_BACKENDS = [
