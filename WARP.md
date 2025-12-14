@@ -17,17 +17,16 @@ Centralized Single Sign-On (SSO) service for ZipTrigo applications. Provides JWT
 - DB: SQLite for dev; PostgreSQL recommended for prod
 
 ## App and Project Structure
-The Django project is named `login` and code lives under `src/`.
-
-- Project config: `config/` (settings, urls, wsgi/asgi)
-- Apps:
-  - `src/accounts`: models, serializers, API views, app urls
-  - `src/core`: authentication backends and JWT helpers
-- Templates: `src/login/templates`
+The Django project config lives in `config/`, and the Django app is `src/login` (installed as `src.login`).
+- Models: `src/login/models/` is a package (one model per file). Import via `from src.login.models import ...`.
+- Views: `src/login/views/` contains DRF views grouped by domain.
+- Serializers: `src/login/serializers.py`.
+- Auth/JWT helpers: `src/login/authentication.py`, `src/login/backends.py`, `src/login/jwt.py`.
+- Templates: `src/login/templates/`.
 
 ## Current Status
 - Custom `User` model with email as username
-- JWT utilities: `core/jwt.py` builds tokens including global + per-service roles/permissions
+- JWT utilities: `src/login/jwt.py` builds tokens including global + per-service roles/permissions
 - DRF authentication:
   - `JWTUserAuthentication` (Authorization: Bearer <token>)
   - `ServiceAuthentication` (X-Client-Id / X-Client-Secret)
@@ -46,14 +45,14 @@ The Django project is named `login` and code lives under `src/`.
 - Minimal UI: `/` renders `hello.html`
 
 ## Configuration
-Key settings in `config/settings.py`:
-- `AUTH_USER_MODEL = 'accounts.User'`
-- DRF defaults to `IsAuthenticated`; admin endpoints add `IsAdminUser`
+Key settings live in `config/settings.py`:
+- Custom user model: `src.login.models.user.User` (set via `AUTH_USER_MODEL`).
+- DRF defaults to `IsAuthenticated`; admin endpoints add `IsAdminUser`.
 - JWT:
   - `JWT_SECRET` (set via env in prod)
-  - `JWT_ALGORITHM = 'HS256'`
-  - `JWT_EXP_DELTA_SECONDS = 14 * 24 * 3600`
-- Email-based auth backend: `core.backends.EmailBackend`
+  - `JWT_ALGORITHM` (default: HS256)
+  - `JWT_EXP_DELTA_SECONDS` (default: 14 days)
+- Email-based auth backend: `src.login.backends.EmailBackend`.
 
 ## How to Run (dev)
 1. Create venv and install deps: `pip install -r requirements.txt`
