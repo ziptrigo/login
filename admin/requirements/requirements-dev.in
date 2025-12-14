@@ -1,0 +1,16 @@
+-r requirements.txt
+
+black
+django-stubs
+djangorestframework-stubs
+factory-boy
+faker
+flake8
+flake8-pyproject
+isort
+mypy
+pip-tools
+pytest
+pytest-cov
+pytest-django
+typer-invoke

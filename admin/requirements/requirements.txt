@@ -1,0 +1,32 @@
+asgiref==3.11.0
+    # via django
+click==8.3.1
+    # via typer
+colorama==0.4.6
+    # via click
+django==6.0
+    # via
+    #   -r requirements.in
+    #   djangorestframework
+djangorestframework==3.16.1
+    # via -r requirements.in
+markdown-it-py==4.0.0
+    # via rich
+mdurl==0.1.2
+    # via markdown-it-py
+pygments==2.19.2
+    # via rich
+pyjwt==2.10.1
+    # via -r requirements.in
+rich==14.2.0
+    # via typer
+shellingham==1.5.4
+    # via typer
+sqlparse==0.5.4
+    # via django
+typer==0.20.0
+    # via -r requirements.in
+typing-extensions==4.15.0
+    # via typer
+tzdata==2025.3
+    # via django
