@@ -49,9 +49,17 @@ python manage.py runserver
 
 ## API Endpoints
 
+### API Documentation
+- `/api/schema/` - OpenAPI schema (append `?format=json` or `?format=yaml`)
+- `/api/docs/` - Interactive Swagger UI documentation (supports Authorize with Bearer tokens)
+- `/api/redoc/` - ReDoc documentation
+
 ### Authentication
 
-**Login**
+- Auth method: JWT via `Authorization: Bearer <token>`.
+- Service-to-service auth: `X-Client-Id` and `X-Client-Secret` headers (for endpoints that use `ServiceAuthentication`).
+
+**Login (open endpoint)**
 ```
 POST /api/auth/login
 Content-Type: application/json
@@ -61,7 +69,7 @@ Content-Type: application/json
   "password": "password123"
 }
 
-Response:
+Response 200:
 {
   "access_token": "eyJ...",
   "expires_in": 1209600,
@@ -70,6 +78,8 @@ Response:
 ```
 
 ### Services (Admin only)
+
+Create a service to obtain `client_id` and `client_secret` the first time.
 
 - `POST /api/services` - Create a new service
 - `GET /api/services` - List all services
@@ -135,48 +145,55 @@ X-Client-Secret: <client_secret>
 
 Key settings in `src/login/settings.py`:
 
-- `JWT_SECRET` - Secret key for JWT signing (change in production!)
+- `AUTH_USER_MODEL = 'accounts.User'`
+- DRF defaults: `IsAuthenticated`; admin endpoints layer `IsAdminUser`
+- `JWT_SECRET` - Secret key for JWT signing (set via environment in production)
 - `JWT_ALGORITHM` - Algorithm for JWT (default: HS256)
 - `JWT_EXP_DELTA_SECONDS` - Token expiration time (default: 2 weeks)
 
 ## Testing
 
-Default superuser credentials for testing:
+Default superuser credentials for local testing (if you created as shown above):
 - Email: `admin@example.com`
 - Password: `admin123`
 
-Access Django admin at: http://127.0.0.1:8000/admin/
+Quick manual test sequence:
+1) Create a service (admin-only): `POST /api/services` — returns generated `client_id` and `client_secret`.
+2) Create or assign a user to that service: `POST /api/services/{service_id}/users`.
+3) Login as that user: `POST /api/auth/login` — receive JWT.
+4) Call protected endpoints with `Authorization: Bearer <token>`.
+
+Django admin: http://127.0.0.1:8000/admin/
 
 ## Project Structure
 
 ```
-login/
-  manage.py           # Django management script
-  requirements.txt    # Python dependencies
-  docs/              # Documentation
-  src/               # Source code
-    login/           # Django project configuration
-      settings.py    # Settings
-      urls.py        # Main URL routing
-      wsgi.py        # WSGI application
-      asgi.py        # ASGI application
-    core/            # Core functionality
-      jwt.py         # JWT utilities
-      authentication.py  # DRF authentication classes
-      backends.py    # Django authentication backend
-    accounts/        # Main app
-      models.py      # Data models
-      serializers.py # DRF serializers
-      views/         # API views
-        auth_views.py
-        service_views.py
-        role_permission_views.py
-        user_views.py
-      urls.py        # App URL routing
-      admin.py       # Admin configuration
-    templates/       # HTML templates
-      base.html
-      hello.html
+manage.py           # Django management script (adds src/ to sys.path)
+requirements.txt    # Python dependencies
+docs/               # Documentation
+src/                # Source code
+  login/            # Django project configuration
+    settings.py     # Settings
+    urls.py         # Main URL routing
+    wsgi.py         # WSGI application
+    asgi.py         # ASGI application
+  core/             # Core functionality
+    jwt.py          # JWT utilities
+    authentication.py  # DRF authentication classes
+    backends.py     # Django authentication backend
+  accounts/         # Main app
+    models.py       # Data models
+    serializers.py  # DRF serializers
+    views/          # API views
+      auth_views.py
+      service_views.py
+      role_permission_views.py
+      user_views.py
+    urls.py         # App URL routing
+    admin.py        # Admin configuration
+  templates/        # HTML templates
+    base.html
+    hello.html
 ```
 
 ## License
