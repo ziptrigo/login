@@ -1,6 +1,6 @@
 import pytest
 
-from src.login.models import (
+from src.user.models import (
     Permission,
     Role,
     User,

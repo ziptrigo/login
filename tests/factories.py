@@ -5,7 +5,7 @@ from factory.django import DjangoModelFactory
 
 class UserFactory(DjangoModelFactory):
     class Meta:
-        model = 'login.User'
+        model = 'user.User'
 
     email = factory.Sequence(lambda n: f'user{n}@example.com')
     name = Faker('name')

@@ -3,8 +3,8 @@ import time
 import jwt
 import pytest
 
-from src.login.jwt import build_jwt_for_user, decode_jwt
-from src.login.models import (
+from src.user.jwt import build_jwt_for_user, decode_jwt
+from src.user.models import (
     Permission,
     RolePermission,
     User,
