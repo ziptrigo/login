@@ -37,6 +37,7 @@ ALLOWED_HOSTS: list[str] = [
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -120,8 +121,12 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (ignored per project request)
-STATIC_URL = 'static/'
+# Static files
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    PROJECT_ROOT / 'src' / 'login' / 'static',
+]
+STATIC_ROOT = PROJECT_ROOT / 'staticfiles'
 
 
 # Default primary key field type
@@ -162,4 +167,35 @@ SPECTACULAR_SETTINGS = {
     ),
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
+}
+
+# Jazzmin configuration
+JAZZMIN_SETTINGS = {
+    'site_title': 'Login Admin',
+    'site_header': 'Login Administration',
+    'site_brand': 'Login',
+    'welcome_sign': 'Login Admin',
+    'copyright': 'Login Project',
+    'search_model': ['login.User', 'login.Service', 'login.Role', 'login.Permission'],
+    'user_avatar': None,
+    'login_logo': 'images/logo_128x128.png',
+    'site_logo': 'images/logo_128x128.png',
+    'show_sidebar': True,
+    'navigation_expanded': True,
+    'theme': 'default',
+    'dark_mode_theme': 'darkly',
+    'icons': {
+        'auth': 'fas fa-users-cog',
+        'auth.user': 'fas fa-user',
+        'auth.Group': 'fas fa-users',
+        'login.Permission': 'fas fa-key',
+        'login.Role': 'fas fa-user-tag',
+        'login.Service': 'fas fa-cubes',
+        'login.User': 'fas fa-user-circle',
+    },
+    'default_icon_parents': 'fas fa-chevron-right',
+    'default_icon_children': 'fas fa-arrow-right',
+    'related_modal_active': True,
+    'custom_css': 'css/jazzmin_custom.css',
+    'custom_js': 'js/admin_theme_toggle.js',
 }

@@ -131,7 +131,7 @@ class Migration(migrations.Migration):
                         null=True,
                         on_delete=django.db.models.deletion.CASCADE,
                         related_name='roles',
-                        to='accounts.service',
+                        to='login.service',
                     ),
                 ),
             ],
@@ -162,7 +162,7 @@ class Migration(migrations.Migration):
                         null=True,
                         on_delete=django.db.models.deletion.CASCADE,
                         related_name='permissions',
-                        to='accounts.service',
+                        to='login.service',
                     ),
                 ),
             ],
@@ -179,7 +179,7 @@ class Migration(migrations.Migration):
                 (
                     'permission',
                     models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, to='accounts.permission'
+                        on_delete=django.db.models.deletion.CASCADE, to='login.permission'
                     ),
                 ),
                 (
@@ -204,7 +204,7 @@ class Migration(migrations.Migration):
                 (
                     'role',
                     models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, to='accounts.role'
+                        on_delete=django.db.models.deletion.CASCADE, to='login.role'
                     ),
                 ),
                 (
@@ -242,7 +242,7 @@ class Migration(migrations.Migration):
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
                         related_name='user_assignments',
-                        to='accounts.service',
+                        to='login.service',
                     ),
                 ),
                 (
@@ -267,7 +267,7 @@ class Migration(migrations.Migration):
                 (
                     'permission',
                     models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, to='accounts.permission'
+                        on_delete=django.db.models.deletion.CASCADE, to='login.permission'
                     ),
                 ),
                 (
@@ -275,7 +275,7 @@ class Migration(migrations.Migration):
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
                         related_name='user_permissions',
-                        to='accounts.service',
+                        to='login.service',
                     ),
                 ),
                 (
@@ -300,7 +300,7 @@ class Migration(migrations.Migration):
                 (
                     'role',
                     models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, to='accounts.role'
+                        on_delete=django.db.models.deletion.CASCADE, to='login.role'
                     ),
                 ),
                 (
@@ -308,7 +308,7 @@ class Migration(migrations.Migration):
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
                         related_name='user_roles',
-                        to='accounts.service',
+                        to='login.service',
                     ),
                 ),
                 (
@@ -335,7 +335,7 @@ class Migration(migrations.Migration):
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
                         related_name='permission_roles',
-                        to='accounts.permission',
+                        to='login.permission',
                     ),
                 ),
                 (
@@ -343,7 +343,7 @@ class Migration(migrations.Migration):
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
                         related_name='role_permissions',
-                        to='accounts.role',
+                        to='login.role',
                     ),
                 ),
             ],
