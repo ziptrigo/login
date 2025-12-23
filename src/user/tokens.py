@@ -86,7 +86,7 @@ class CustomAccessToken(Token):
         token['global_roles'] = global_roles
         token['services'] = services_data
 
-        return token
+        return token  # type: ignore
 
 
 class CustomRefreshToken(Token):
@@ -119,4 +119,5 @@ class CustomRefreshToken(Token):
         """Create a refresh token for the given user."""
         token = super().for_user(user)
         token['email'] = user.email
-        return token
+
+        return token  # type: ignore

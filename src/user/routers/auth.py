@@ -14,7 +14,7 @@ router = Router()
 @router.post('/login', response=TokenResponse, auth=None)
 def login(request: HttpRequest, payload: LoginRequest) -> TokenResponse:
     """User login endpoint - returns JWT access and refresh tokens for valid credentials."""
-    user = authenticate(request, email=payload.email, password=payload.password)
+    user: User | None = authenticate(request, email=payload.email, password=payload.password)
 
     if user is None:
         raise HttpError(400, 'Invalid credentials')
