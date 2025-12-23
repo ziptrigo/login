@@ -30,7 +30,7 @@ def login(request: HttpRequest, payload: LoginRequest) -> TokenResponse:
         access_token=str(access),
         refresh_token=str(refresh),
         token_type='Bearer',
-        expires_in=int(settings.NINJA_JWT['ACCESS_TOKEN_LIFETIME'].total_seconds()),
+        expires_in=int(settings.NINJA_JWT['ACCESS_TOKEN_LIFETIME'].total_seconds()),  # type: ignore
     )
 
 
@@ -58,5 +58,5 @@ def refresh_token(request: HttpRequest, payload: RefreshRequest) -> TokenRespons
         access_token=str(access),
         refresh_token=str(refresh),
         token_type='Bearer',
-        expires_in=int(settings.NINJA_JWT['ACCESS_TOKEN_LIFETIME'].total_seconds()),
+        expires_in=int(settings.NINJA_JWT['ACCESS_TOKEN_LIFETIME'].total_seconds()),  # type: ignore
     )

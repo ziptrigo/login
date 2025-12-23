@@ -7,7 +7,7 @@ from .models import User
 class JWTAuth(BaseJWTAuth):
     """JWT-based authentication for users with status check."""
 
-    def authenticate(self, request: HttpRequest, token: str | None) -> User | None:
+    def authenticate(self, request: HttpRequest, token: str) -> User | None:
         user: User | None = super().authenticate(request, token)
 
         if user is None:
@@ -22,7 +22,7 @@ class JWTAuth(BaseJWTAuth):
 class AdminAuth(JWTAuth):
     """JWT authentication that also requires admin (staff) privileges."""
 
-    def authenticate(self, request: HttpRequest, token: str | None) -> User | None:
+    def authenticate(self, request: HttpRequest, token: str) -> User | None:
         user: User | None = super().authenticate(request, token)
 
         if user is None:
