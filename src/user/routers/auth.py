@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib.auth import authenticate
+from django.http import HttpRequest
 from ninja import Router
 from ninja.errors import HttpError
 
@@ -11,7 +12,7 @@ router = Router()
 
 
 @router.post('/login', response=TokenResponse, auth=None)
-def login(request, payload: LoginRequest):
+def login(request: HttpRequest, payload: LoginRequest) -> TokenResponse:
     """User login endpoint - returns JWT access and refresh tokens for valid credentials."""
     user = authenticate(request, email=payload.email, password=payload.password)
 
@@ -34,8 +35,8 @@ def login(request, payload: LoginRequest):
 
 
 @router.post('/refresh', response=TokenResponse, auth=None)
-def refresh_token(request, payload: RefreshRequest):
-    """Token refresh endpoint - returns new access token using refresh token."""
+def refresh_token(request: HttpRequest, payload: RefreshRequest) -> TokenResponse:
+    """Token refresh endpoint - returns a new access token using refresh token."""
     try:
         refresh = CustomRefreshToken(payload.refresh_token)
     except Exception:
@@ -50,7 +51,7 @@ def refresh_token(request, payload: RefreshRequest):
     if user.status != User.STATUS_ACTIVE:
         raise HttpError(403, 'User not active')
 
-    # Generate new access token
+    # Generate a new access token
     access = CustomAccessToken.for_user(user)
 
     return TokenResponse(

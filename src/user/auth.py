@@ -1,3 +1,5 @@
+from django.http import HttpRequest
+
 from ninja_jwt.authentication import JWTAuth as BaseJWTAuth
 
 from .models import User
@@ -6,7 +8,7 @@ from .models import User
 class JWTAuth(BaseJWTAuth):
     """JWT-based authentication for users with status check."""
 
-    def authenticate(self, request, token: str | None):
+    def authenticate(self, request: HttpRequest, token: str | None) -> User | None:
         user = super().authenticate(request, token)
 
         if user is None:
@@ -21,7 +23,7 @@ class JWTAuth(BaseJWTAuth):
 class AdminAuth(JWTAuth):
     """JWT authentication that also requires admin (staff) privileges."""
 
-    def authenticate(self, request, token: str | None):
+    def authenticate(self, request: HttpRequest, token: str | None) -> User | None:
         user = super().authenticate(request, token)
 
         if user is None:
